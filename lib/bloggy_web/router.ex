@@ -17,11 +17,22 @@ defmodule BloggyWeb.Router do
     plug BloggyWeb.Auth.Pipeline
   end
 
-  scope "/", BloggyWeb do
-    # pipe_through [:browser, :auth]
-    pipe_through [:browser]
+  pipeline :with_session do
+    plug BloggyWeb.Auth.Pipeline
+    plug BloggyWeb.Auth.CurrentUser
+  end
 
-    get "/", PageController, :index
+  pipeline :authenticated do
+    plug Guardian.Plug.VerifyHeader
+    plug Guardian.Plug.EnsureAuthenticated
+  end
+
+  scope "/", BloggyWeb do
+    pipe_through :browser
+    pipe_through :with_session
+    pipe_through(:authenticated)
+
+    # resources("/", PageController, only: [:index])
 
     resources("/posts", PostController,
       only: [:index, :new, :create, :edit, :show, :delete, :update]
@@ -35,41 +46,16 @@ defmodule BloggyWeb.Router do
       only: [:index, :new, :create, :edit, :show, :delete, :update]
     )
 
-    resources("/sessions", SessionController,
-    only: [:new, :create, :delete]
-    )
+    # resources("/sessions", SessionController, only: [:new, :create, :delete])
   end
 
-  # scope "/", BloggyWeb do
-  #   pipe_through [:browser]
+  scope "/", BloggyWeb do
+    # , :with_session]
+    pipe_through :browser
+    pipe_through :with_session
 
-  #   get "/", PageController, :index
+    resources("/", PageController, only: [:index])
 
-  #   # resources("/users", UserController,
-  #   #   only: [:new, :create, index]
-  #   # )
-  # end
-
-  # scope "/", BloggyWeb do
-  #   pipe_through :browser
-
-  #   get "/", PageController, :index
-
-  #   resources("/posts", PostController,
-  #     only: [:index, :new, :create, :edit, :show, :delete, :update]
-  #   )
-
-  #   resources("/users", UserController,
-  #     only: [:index, :new, :create, :edit, :show, :delete, :update]
-  #   )
-
-  #   resources("/companies", CompanyController,
-  #     only: [:index, :new, :create, :edit, :show, :delete, :update]
-  #   )
-  # end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", BloggyWeb do
-  #   pipe_through :api
-  # end
+    resources("/sessions", SessionController, only: [:new, :create, :delete])
+  end
 end

@@ -17,13 +17,13 @@ defmodule BloggyWeb.UserController do
     render(conn, "new.html", changeset: changeset)
   end
 
-  def signin(conn, %{"email" => email, "password" => password}) do
-    with {:ok, user, token} <- Guardian.authenticate(email, password) do
-      conn
-      |> put_status(:created)
-      |> redirect(to: Routes.post_path(conn, :index, %{user: user}))
-    end
-  end
+  # def signin(conn, %{"email" => email, "password" => password}) do
+  #   with {:ok, user, token} <- Guardian.authenticate(email, password) do
+  #     conn
+  #     |> put_status(:created)
+  #     |> redirect(to: Routes.post_path(conn, :index, %{user: user}))
+  #   end
+  # end
 
   # def create(conn, %{"user" => user_params}) do
   #   with {:ok, %User{} = user} <- Accounts.create_user(user_params),
@@ -53,7 +53,6 @@ defmodule BloggyWeb.UserController do
 
         {:error, :secret_not_found} ->
           IO.puts("Here >> 3")
-          IO.inspect(Guardian.encode_and_sign(user))
 
           conn
           |> put_flash(:info, "User created successfully.")

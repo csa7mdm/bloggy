@@ -34,4 +34,9 @@ defmodule BloggyWeb.Auth.Guardian do
     {:ok, token, _claims} = encode_and_sign(user)
     {:ok, user, token}
   end
+
+  # def login(conn, user) do
+  #   conn
+  #   |> Guardian.Plug.sign_in(user)
+  # end
 end

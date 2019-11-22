@@ -29,6 +29,16 @@ config :phoenix, :json_library, Jason
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"
 
-config :bloggy, BloggyWeb.Auth.Guardian,
-  issuer: "bloggy",
+# config :bloggy, BloggyWeb.Auth.Guardian,
+#   issuer: "bloggy",
+#   # ttl: {30, :days},
+#   # verify_issuer: true,
+#   serializer: BloggyWeb.Auth.GuardianSerializer,
+#   secret_key: "n7L51EYx1PS+xhh+nAeembdr2FH+bqk3JC5B/HeYcDlEbl//sJPhkU2LiBDr+/MS"
+
+config :guardian, Guardian,
+  issuer: "Bloggy.#{Mix.env()}",
+  ttl: {30, :days},
+  verify_issuer: true,
+  serializer: BloggyWeb.Auth.GuardianSerializer,
   secret_key: "n7L51EYx1PS+xhh+nAeembdr2FH+bqk3JC5B/HeYcDlEbl//sJPhkU2LiBDr+/MS"
