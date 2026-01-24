@@ -8,7 +8,13 @@
   </.error>
 
   <.input field={f[:title]} type="text" label="Title" />
-  <.input field={f[:body]} type="textarea" label="Body" />
+  
+  <div class="mt-2" phx-update="ignore">
+    <.label for="post_body">Body</.label>
+    <textarea id="post_body" name="post[body]" phx-hook="Editor" class="hidden">
+      <%= Ecto.Changeset.get_field(@changeset, :body) %>
+    </textarea>
+  </div>
 
   <:actions>
     <.button>Save Post</.button>

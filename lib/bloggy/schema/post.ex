@@ -17,7 +17,7 @@ defmodule Bloggy.Schema.Post do
   @doc false
   def changeset(post, attrs) do
     post
-    |> cast(attrs, [:title, :content, :created_by, :company_id, :approved, :tag, :publish_date])
-    |> validate_required([:title, :content, :created_by, :company_id, :approved, :tag, :publish_date])
+    |> cast(attrs, [:title, :body, :created_by, :company_id, :approved, :tag, :publish_date])
+    |> validate_required([:title, :body, :created_by, :company_id, :approved, :tag, :publish_date])
   end
 end

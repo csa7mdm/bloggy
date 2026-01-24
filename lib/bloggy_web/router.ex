@@ -32,6 +32,8 @@ defmodule BloggyWeb.Router do
     pipe_through [:browser, :with_session]
 
     get "/", PageController, :home
+    get "/posts", PostController, :index
+    get "/posts/:id", PostController, :show
     get "/users/new", UserController, :new
     post "/users", UserController, :create
     get "/sessions/new", SessionController, :new
@@ -43,7 +45,7 @@ defmodule BloggyWeb.Router do
   scope "/", BloggyWeb do
     pipe_through [:browser, :with_session, :authenticated]
 
-    resources "/posts", PostController
+    resources "/posts", PostController, except: [:index, :show]
     resources "/users", UserController, except: [:new, :create]
     resources "/companies", CompanyController
   end

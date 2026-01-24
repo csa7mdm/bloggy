@@ -1,24 +1,51 @@
 <.header>
-  Listing Posts
+  All Posts
   <:actions>
-    <.link href={~p"/posts/new"}>
+    <.link :if={@current_user} href={~p"/posts/new"}>
       <.button>New Post</.button>
     </.link>
   </:actions>
 </.header>
 
-<.table id="posts" rows={@posts}>
-  <:col :let={post} label="Title">{post.title}</:col>
-  <:col :let={post} label="Body">{String.slice(post.body || "", 0, 100)}</:col>
-  <:action :let={post}>
-    <.link href={~p"/posts/#{post}"}>Show</.link>
-  </:action>
-  <:action :let={post}>
-    <.link href={~p"/posts/#{post}/edit"}>Edit</.link>
-  </:action>
-  <:action :let={post}>
-    <.link href={~p"/posts/#{post}"} method="delete" data-confirm="Are you sure?">
-      Delete
-    </.link>
-  </:action>
-</.table>
+<div class="mt-8 flow-root">
+  <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+    <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+      <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
+        <table class="min-w-full divide-y divide-gray-300">
+          <thead class="bg-gray-50">
+            <tr>
+              <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Title</th>
+              <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Excerpt</th>
+              <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Published</th>
+              <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
+                <span class="sr-only">Actions</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200 bg-white">
+            <%= for post <- @posts do %>
+              <tr>
+                <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                  <%= post.title %>
+                </td>
+                <td class="px-3 py-4 text-sm text-gray-500">
+                  <%= String.slice(post.body || "", 0, 150) %>...
+                </td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                  <%= if post.publish_date, do: Calendar.strftime(post.publish_date, "%B %d, %Y"), else: "Draft" %>
+                </td>
+                <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                  <.link href={~p"/posts/#{post}"} class="text-brand hover:text-brand/80">Read</.link>
+                  <%= if @current_user do %>
+                    <span class="mx-2 text-gray-300">|</span>
+                    <.link href={~p"/posts/#{post}/edit"} class="text-indigo-600 hover:text-indigo-900">Edit</.link>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

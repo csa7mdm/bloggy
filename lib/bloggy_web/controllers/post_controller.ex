@@ -15,6 +15,12 @@ defmodule BloggyWeb.PostController do
   end
 
   def create(conn, %{"post" => post_params}) do
+    # TODO: We need to assign created_by from the session user here eventually
+    # For now (MVP), we might need to rely on the form or logged in user if available
+    # But since create is protected, we can get current_user from assigns
+    current_user = conn.assigns[:current_user]
+    post_params = Map.put(post_params, "created_by", current_user.id)
+
     case Schema.create_post(post_params) do
       {:ok, post} ->
         conn

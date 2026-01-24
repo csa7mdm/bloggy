@@ -1,15 +1,59 @@
-<.header>
-  Post {@post.id}
-  <:actions>
+<div class="mx-auto max-w-3xl px-4 sm:px-6 xl:max-w-5xl xl:px-0">
+  <div class="xl:divide-y xl:divide-gray-200">
+    <header class="pt-6 xl:pb-6">
+      <div class="space-y-1 text-center">
+        <dl class="space-y-10">
+          <div>
+            <dt class="sr-only">Published on</dt>
+            <dd class="text-base font-medium leading-6 text-gray-500">
+              <time datetime={if @post.publish_date, do: Calendar.strftime(@post.publish_date, "%Y-%m-%d"), else: ""}>
+                <%= if @post.publish_date, do: Calendar.strftime(@post.publish_date, "%B %d, %Y"), else: "Draft" %>
+              </time>
+            </dd>
+          </div>
+        </dl>
+        <div>
+          <h1 class="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 sm:text-4xl sm:leading-10 md:text-5xl md:leading-14">
+            <%= @post.title %>
+          </h1>
+        </div>
+      </div>
+    </header>
+    <div class="divide-y divide-gray-200 pb-8 xl:grid xl:grid-cols-4 xl:gap-x-6 xl:divide-y-0">
+      <dl class="pt-6 pb-10 xl:border-b xl:border-gray-200 xl:pt-11">
+        <dt class="sr-only">Authors</dt>
+        <dd>
+          <ul class="flex justify-center xl:block space-x-8 sm:space-x-12 xl:space-x-0 xl:space-y-8">
+            <li class="flex items-center space-x-2">
+              <img src="https://ui-avatars.com/api/?name=Author&background=random" alt="avatar" class="h-10 w-10 rounded-full" />
+              <dl class="whitespace-nowrap text-sm font-medium leading-5">
+                <dt class="sr-only">Name</dt>
+                <dd class="text-gray-900">Valid Author</dd>
+              </dl>
+            </li>
+          </ul>
+        </dd>
+      </dl>
+      <div class="divide-y divide-gray-200 xl:col-span-3 xl:row-span-2 xl:pb-0">
+        <div class="prose max-w-none pt-10 pb-8 dark:prose-dark">
+          <div class="whitespace-pre-wrap"><%= @post.body %></div>
+        </div>
+      </div>
+      <footer>
+        <div class="pt-4 xl:pt-8">
+          <.link href={~p"/posts"} class="text-brand hover:text-brand/80">
+            &larr; Back to the blog
+          </.link>
+        </div>
+      </footer>
+    </div>
+  </div>
+</div>
+
+<%= if @current_user do %>
+  <div class="mt-8 flex justify-center">
     <.link href={~p"/posts/#{@post}/edit"}>
-      <.button>Edit post</.button>
+      <.button>Edit this post</.button>
     </.link>
-  </:actions>
-</.header>
-
-<.list>
-  <:item title="Title">{@post.title}</:item>
-  <:item title="Body">{@post.body}</:item>
-</.list>
-
-<.back navigate={~p"/posts"}>Back to posts</.back>
+  </div>
+<% end %>
