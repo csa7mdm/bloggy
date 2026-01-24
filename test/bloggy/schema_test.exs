@@ -96,7 +96,7 @@ defmodule Bloggy.SchemaTest do
 
     test "create_post/1 with embedding vector" do
       user = user_fixture()
-      embedding = Pgvector.new([0.1, 0.2, 0.3])
+      embedding = Pgvector.new(List.duplicate(0.1, 1536))
 
       valid_attrs =
         Map.merge(@valid_attrs, %{
