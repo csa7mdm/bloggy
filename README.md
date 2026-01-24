@@ -8,7 +8,7 @@
 [![AI Ready](https://img.shields.io/badge/AI--Native-Yes-green.svg)](/llms.txt)
 [![Build Status](https://github.com/csa7mdm/bloggy/actions/workflows/ci.yml/badge.svg)](https://github.com/csa7mdm/bloggy/actions/workflows/ci.yml)
 
-![Bloggy Logo](priv/static/images/logo.svg)
+![Bloggy Logo](assets/static/images/logo.svg)
 
 ## 📖 The Story
 
