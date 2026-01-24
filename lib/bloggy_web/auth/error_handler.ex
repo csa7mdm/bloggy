@@ -1,11 +1,11 @@
 defmodule BloggyWeb.Auth.ErrorHandler do
   import Plug.Conn
 
+  @behaviour Guardian.Plug.ErrorHandler
+
+  @impl Guardian.Plug.ErrorHandler
   def auth_error(conn, {type, _reason}, _opts) do
-    IO.puts("We are here heeeeeeh5")
-    # IO.inspect(conn)
-    IO.inspect(_reason)
-    body = Poison.encode!(%{error: to_string(type)})
+    body = Jason.encode!(%{error: to_string(type)})
 
     conn
     |> put_resp_content_type("application/json")

@@ -24,24 +24,28 @@ defmodule BloggyWeb.Router do
   end
 
   pipeline :authenticated do
-    plug Guardian.Plug.VerifyHeader
     plug Guardian.Plug.EnsureAuthenticated
   end
 
-  scope "/", BloggyWeb do
-    pipe_through [:browser, :with_session, :authenticated]
-
-    resources "/posts", PostController, only: [:index, :new, :create, :edit, :show, :delete, :update]
-    resources "/users", UserController, only: [:index, :edit, :show, :delete, :update]
-    resources "/companies", CompanyController, only: [:index, :new, :create, :edit, :show, :delete, :update]
-  end
-
+  # Public routes - no authentication required
   scope "/", BloggyWeb do
     pipe_through [:browser, :with_session]
 
     get "/", PageController, :home
-    resources "/users", UserController, only: [:new, :create]
-    resources "/sessions", SessionController, only: [:new, :create, :delete]
+    get "/users/new", UserController, :new
+    post "/users", UserController, :create
+    get "/sessions/new", SessionController, :new
+    post "/sessions", SessionController, :create
+    delete "/sessions/:id", SessionController, :delete
+  end
+
+  # Protected routes - authentication required
+  scope "/", BloggyWeb do
+    pipe_through [:browser, :with_session, :authenticated]
+
+    resources "/posts", PostController
+    resources "/users", UserController, except: [:new, :create]
+    resources "/companies", CompanyController
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

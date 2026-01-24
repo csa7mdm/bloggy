@@ -7,9 +7,9 @@ defmodule BloggyWeb.CoreComponents do
   customize the generated components in this module.
   """
   use Phoenix.Component
+  use Gettext, backend: BloggyWeb.Gettext
 
   alias Phoenix.LiveView.JS
-  import BloggyWeb.Gettext
 
   @doc """
   Renders a modal.
