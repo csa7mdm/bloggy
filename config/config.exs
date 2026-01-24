@@ -11,8 +11,7 @@ config :bloggy,
   ecto_repos: [Bloggy.Repo],
   generators: [timestamp_type: :utc_datetime]
 
-config :bloggy, Bloggy.Repo,
-  types: Bloggy.PostgrexTypes
+config :bloggy, Bloggy.Repo, types: Bloggy.PostgrexTypes
 
 # Configures the endpoint
 config :bloggy, BloggyWeb.Endpoint,

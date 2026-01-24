@@ -1,1 +1,5 @@
-Postgrex.Types.define(Bloggy.PostgrexTypes, [Pgvector.Extensions.Vector] ++ Ecto.Adapters.Postgres.extensions(), [])
+Postgrex.Types.define(
+  Bloggy.PostgrexTypes,
+  [Pgvector.Extensions.Vector] ++ Ecto.Adapters.Postgres.extensions(),
+  []
+)

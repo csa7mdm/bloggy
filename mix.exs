@@ -12,7 +12,8 @@ defmodule Bloggy.MixProject do
       source_url: "https://github.com/csa7mdm/bloggy",
       homepage_url: "http://localhost:4000",
       docs: [
-        main: "readme", # The main page in the docs
+        # The main page in the docs
+        main: "readme",
         extras: ["README.md", "ARCHITECTURE.md", "ROADMAP.md"]
       ],
       aliases: aliases(),
