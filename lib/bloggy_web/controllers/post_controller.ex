@@ -6,12 +6,12 @@ defmodule BloggyWeb.PostController do
 
   def index(conn, _params) do
     posts = Schema.list_posts()
-    render(conn, "index.html", posts: posts)
+    render(conn, :index, posts: posts)
   end
 
   def new(conn, _params) do
     changeset = Schema.change_post(%Post{})
-    render(conn, "new.html", changeset: changeset)
+    render(conn, :new, changeset: changeset)
   end
 
   def create(conn, %{"post" => post_params}) do
@@ -19,22 +19,22 @@ defmodule BloggyWeb.PostController do
       {:ok, post} ->
         conn
         |> put_flash(:info, "Post created successfully.")
-        |> redirect(to: Routes.post_path(conn, :show, post))
+        |> redirect(to: ~p"/posts/#{post}")
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        render(conn, :new, changeset: changeset)
     end
   end
 
   def show(conn, %{"id" => id}) do
     post = Schema.get_post!(id)
-    render(conn, "show.html", post: post)
+    render(conn, :show, post: post)
   end
 
   def edit(conn, %{"id" => id}) do
     post = Schema.get_post!(id)
     changeset = Schema.change_post(post)
-    render(conn, "edit.html", post: post, changeset: changeset)
+    render(conn, :edit, post: post, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "post" => post_params}) do
@@ -44,10 +44,10 @@ defmodule BloggyWeb.PostController do
       {:ok, post} ->
         conn
         |> put_flash(:info, "Post updated successfully.")
-        |> redirect(to: Routes.post_path(conn, :show, post))
+        |> redirect(to: ~p"/posts/#{post}")
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", post: post, changeset: changeset)
+        render(conn, :edit, post: post, changeset: changeset)
     end
   end
 
@@ -57,6 +57,6 @@ defmodule BloggyWeb.PostController do
 
     conn
     |> put_flash(:info, "Post deleted successfully.")
-    |> redirect(to: Routes.post_path(conn, :index))
+    |> redirect(to: ~p"/posts")
   end
 end

@@ -4,7 +4,8 @@ defmodule BloggyWeb.Router do
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
-    plug :fetch_flash
+    plug :fetch_live_flash
+    plug :put_root_layout, html: {BloggyWeb.Layouts, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
   end
@@ -28,34 +29,30 @@ defmodule BloggyWeb.Router do
   end
 
   scope "/", BloggyWeb do
-    pipe_through :browser
-    pipe_through :with_session
-    pipe_through(:authenticated)
+    pipe_through [:browser, :with_session, :authenticated]
 
-    # resources("/", PageController, only: [:index])
-
-    resources("/posts", PostController,
-      only: [:index, :new, :create, :edit, :show, :delete, :update]
-    )
-
-    resources("/users", UserController,
-      only: [:index, :new, :create, :edit, :show, :delete, :update]
-    )
-
-    resources("/companies", CompanyController,
-      only: [:index, :new, :create, :edit, :show, :delete, :update]
-    )
-
-    # resources("/sessions", SessionController, only: [:new, :create, :delete])
+    resources "/posts", PostController, only: [:index, :new, :create, :edit, :show, :delete, :update]
+    resources "/users", UserController, only: [:index, :edit, :show, :delete, :update]
+    resources "/companies", CompanyController, only: [:index, :new, :create, :edit, :show, :delete, :update]
   end
 
   scope "/", BloggyWeb do
-    # , :with_session]
-    pipe_through :browser
-    pipe_through :with_session
+    pipe_through [:browser, :with_session]
 
-    resources("/", PageController, only: [:index])
+    get "/", PageController, :home
+    resources "/users", UserController, only: [:new, :create]
+    resources "/sessions", SessionController, only: [:new, :create, :delete]
+  end
 
-    resources("/sessions", SessionController, only: [:new, :create, :delete])
+  # Enable LiveDashboard and Swoosh mailbox preview in development
+  if Application.compile_env(:bloggy, :dev_routes) do
+    import Phoenix.LiveDashboard.Router
+
+    scope "/dev" do
+      pipe_through :browser
+
+      live_dashboard "/dashboard", metrics: BloggyWeb.Telemetry
+      forward "/mailbox", Plug.Swoosh.MailboxPreview
+    end
   end
 end

@@ -1,0 +1,23 @@
+<.header>
+  Listing Companies
+  <:actions>
+    <.link href={~p"/companies/new"}>
+      <.button>New Company</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="companies" rows={@companies}>
+  <:col :let={company} label="Name">{company.name}</:col>
+  <:action :let={company}>
+    <.link href={~p"/companies/#{company}"}>Show</.link>
+  </:action>
+  <:action :let={company}>
+    <.link href={~p"/companies/#{company}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={company}>
+    <.link href={~p"/companies/#{company}"} method="delete" data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>

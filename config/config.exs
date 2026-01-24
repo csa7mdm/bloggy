@@ -1,21 +1,57 @@
 # This file is responsible for configuring your application
-# and its dependencies with the aid of the Mix.Config module.
+# and its dependencies with the aid of the Config module.
 #
 # This configuration file is loaded before any dependency and
 # is restricted to this project.
 
 # General application configuration
-use Mix.Config
+import Config
 
 config :bloggy,
-  ecto_repos: [Bloggy.Repo]
+  ecto_repos: [Bloggy.Repo],
+  generators: [timestamp_type: :utc_datetime]
 
 # Configures the endpoint
 config :bloggy, BloggyWeb.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "Gzemn2yniR+m/HULFoW5KyXVP/7HO2+33L1faEsZRee6rVjp+nHtCZ0VlP9snkQv",
-  render_errors: [view: BloggyWeb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: Bloggy.PubSub, adapter: Phoenix.PubSub.PG2]
+  adapter: Bandit.PhoenixAdapter,
+  render_errors: [
+    formats: [html: BloggyWeb.ErrorHTML, json: BloggyWeb.ErrorJSON],
+    layout: false
+  ],
+  pubsub_server: Bloggy.PubSub,
+  live_view: [signing_salt: "fXYSQQlY"]
+
+# Configures the mailer
+#
+# By default it uses the "Local" adapter which stores the emails
+# locally. You can see the emails in your browser, at "/dev/mailbox".
+#
+# For production it's recommended to configure a different adapter
+# at the `config/runtime.exs`.
+config :bloggy, Bloggy.Mailer, adapter: Swoosh.Adapters.Local
+
+# Configure esbuild (the version is required)
+config :esbuild,
+  version: "0.17.11",
+  bloggy: [
+    args:
+      ~w(js/app.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/*),
+    cd: Path.expand("../assets", __DIR__),
+    env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
+  ]
+
+# Configure tailwind (the version is required)
+config :tailwind,
+  version: "3.4.3",
+  bloggy: [
+    args: ~w(
+      --config=tailwind.config.js
+      --input=css/app.css
+      --output=../priv/static/assets/app.css
+    ),
+    cd: Path.expand("../assets", __DIR__)
+  ]
 
 # Configures Elixir's Logger
 config :logger, :console,
@@ -25,20 +61,11 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
+# Guardian configuration
+config :bloggy, BloggyWeb.Auth.Guardian,
+  issuer: "bloggy",
+  secret_key: "n7L51EYx1PS+xhh+nAeembdr2FH+bqk3JC5B/HeYcDlEbl//sJPhkU2LiBDr+/MS"
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
-import_config "#{Mix.env()}.exs"
-
-# config :bloggy, BloggyWeb.Auth.Guardian,
-#   issuer: "bloggy",
-#   # ttl: {30, :days},
-#   # verify_issuer: true,
-#   serializer: BloggyWeb.Auth.GuardianSerializer,
-#   secret_key: "n7L51EYx1PS+xhh+nAeembdr2FH+bqk3JC5B/HeYcDlEbl//sJPhkU2LiBDr+/MS"
-
-config :guardian, Guardian,
-  issuer: "Bloggy.#{Mix.env()}",
-  ttl: {30, :days},
-  verify_issuer: true,
-  serializer: BloggyWeb.Auth.GuardianSerializer,
-  secret_key: "n7L51EYx1PS+xhh+nAeembdr2FH+bqk3JC5B/HeYcDlEbl//sJPhkU2LiBDr+/MS"
+import_config "#{config_env()}.exs"

@@ -1,0 +1,20 @@
+<.header>
+  Sign In
+  <:subtitle>Enter your credentials to access your account</:subtitle>
+</.header>
+
+<.simple_form :let={f} for={%{}} as={:session} action={~p"/sessions"}>
+  <.input field={f[:email]} type="email" label="Email" required />
+  <.input field={f[:password]} type="password" label="Password" required />
+
+  <:actions>
+    <.button>Sign In</.button>
+  </:actions>
+</.simple_form>
+
+<div class="mt-4 text-sm text-center text-zinc-600">
+  Don't have an account? 
+  <.link href={~p"/users/new"} class="font-semibold text-brand hover:underline">
+    Register
+  </.link>
+</div>

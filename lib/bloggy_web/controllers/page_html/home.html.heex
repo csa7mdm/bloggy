@@ -1,0 +1,89 @@
+<.flash_group flash={@flash} />
+
+<div class="left-[40rem] fixed inset-y-0 right-0 z-0 hidden lg:block xl:left-[50rem]">
+  <svg
+    viewBox="0 0 1480 957"
+    fill="none"
+    aria-hidden="true"
+    class="absolute inset-0 h-full w-full"
+    preserveAspectRatio="xMinYMid slice"
+  >
+    <path fill="#EE7868" d="M0 0h1480v957H0z" />
+    <path
+      d="M137.542 466.27c-582.851-48.41-540.566-282.725-375.082-417.66C-73.112-80.42 194.477-43.377 277.31 166.757c40.811 103.613 116.07 199.6 66.52 295.5-49.55 95.9-139.28 150.29-164.288 4.013Z"
+      fill="#FF9B85"
+    />
+    <path
+      d="M371.882 680.81c172.38 103.616 209.377 232.298 144.895 315.23-63.483 82.932-212.61 0-284.193-130.98-71.584-130.98-32.98-288.867 139.298-184.25Z"
+      fill="#FA7268"
+    />
+  </svg>
+</div>
+
+<div class="px-4 py-10 sm:px-6 sm:py-28 lg:px-8 xl:px-28 xl:py-32">
+  <div class="mx-auto max-w-xl lg:mx-0">
+    <svg viewBox="0 0 71 48" class="h-12" aria-hidden="true">
+      <path
+        d="m26.371 33.477-.552-.1c-3.92-.729-6.397-3.1-7.57-6.829-.733-2.324-.53-4.759.602-7.071.444-.907.982-1.745 1.615-2.499.263-.312.483-.585.595-.81.168-.338.078-.65-.216-.944a2.06 2.06 0 0 0-.655-.456c-.524-.273-1.075-.491-1.607-.773-.63-.334-1.188-.775-1.632-1.334-.541-.68-.767-1.471-.711-2.346.067-.994.352-1.932.797-2.823.566-1.134 1.369-2.09 2.312-2.922 1.207-1.065 2.56-1.9 4.039-2.54 1.594-.689 3.245-1.18 4.94-1.451 1.756-.282 3.525-.366 5.303-.209 2.185.192 4.305.66 6.329 1.479 1.543.625 2.97 1.457 4.234 2.541 1.046.898 1.933 1.917 2.608 3.094.563.98.908 2.031.99 3.161.063.877-.049 1.739-.325 2.572-.322.968-.817 1.843-1.442 2.648-1.05 1.353-2.346 2.358-3.846 3.141-1.68.878-3.462 1.457-5.335 1.8-.924.168-1.859.262-2.801.296-.482.017-.964.003-1.497.003.04.194.066.33.1.465.268 1.048.632 2.058 1.16 3.006.495.893 1.09 1.705 1.86 2.378.787.69 1.679 1.217 2.685 1.538 1.104.353 2.23.5 3.382.408 1.137-.092 2.226-.395 3.259-.878.983-.458 1.878-1.047 2.68-1.742a7.933 7.933 0 0 0 1.77-2.098c.09-.16.169-.326.247-.493.088-.188.184-.378.296-.554.066-.103.155-.197.276-.253.154-.072.315-.089.478-.05.157.03.3.099.41.217.074.08.132.17.179.268.216.45.381.92.491 1.41.122.55.195 1.107.215 1.671.028.78-.062 1.545-.282 2.292-.304 1.034-.802 1.972-1.443 2.835-.769 1.035-1.686 1.922-2.727 2.687a16.099 16.099 0 0 1-2.903 1.748c-1.017.496-2.074.88-3.165 1.16a19.46 19.46 0 0 1-4.086.669 19.54 19.54 0 0 1-2.972-.069"
+        fill="#FD4F00"
+      />
+    </svg>
+    <h1 class="text-brand mt-10 flex items-center text-sm font-semibold leading-6">
+      Welcome to Bloggy
+      <small class="bg-brand/5 text-[0.8125rem] ml-3 rounded-full px-2 font-medium leading-6">
+        v0.1.0
+      </small>
+    </h1>
+    <p class="text-[2rem] mt-4 font-semibold leading-10 tracking-tighter text-zinc-900">
+      Your blog, your way.
+    </p>
+    <p class="mt-4 text-base leading-7 text-zinc-600">
+      A modern Phoenix blog application with authentication, posts, and user management.
+    </p>
+    <div class="flex">
+      <div class="w-full sm:w-auto">
+        <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-3">
+          <a
+            href={~p"/users/new"}
+            class="group relative rounded-2xl px-6 py-4 text-sm font-semibold leading-6 text-zinc-900 sm:py-6"
+          >
+            <span class="absolute inset-0 rounded-2xl bg-zinc-50 transition group-hover:bg-zinc-100 sm:group-hover:scale-105">
+            </span>
+            <span class="relative flex items-center gap-4 sm:flex-col">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" class="h-6 w-6">
+                <path d="m12 3.75 7.5 7.5-7.5 7.5m-6-15 7.5 7.5-7.5 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              Register
+            </span>
+          </a>
+          <a
+            href={~p"/sessions/new"}
+            class="group relative rounded-2xl px-6 py-4 text-sm font-semibold leading-6 text-zinc-900 sm:py-6"
+          >
+            <span class="absolute inset-0 rounded-2xl bg-zinc-50 transition group-hover:bg-zinc-100 sm:group-hover:scale-105">
+            </span>
+            <span class="relative flex items-center gap-4 sm:flex-col">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" class="h-6 w-6">
+                <path d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              Sign In
+            </span>
+          </a>
+          <a
+            href={~p"/posts"}
+            class="group relative rounded-2xl px-6 py-4 text-sm font-semibold leading-6 text-zinc-900 sm:py-6"
+          >
+            <span class="absolute inset-0 rounded-2xl bg-zinc-50 transition group-hover:bg-zinc-100 sm:group-hover:scale-105">
+            </span>
+            <span class="relative flex items-center gap-4 sm:flex-col">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" class="h-6 w-6">
+                <path d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 0 1-2.25 2.25M16.5 7.5V18a2.25 2.25 0 0 0 2.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 0 0 2.25 2.25h13.5M6 7.5h3v3H6v-3Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              Posts
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

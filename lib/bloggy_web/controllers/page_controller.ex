@@ -1,8 +1,7 @@
 defmodule BloggyWeb.PageController do
   use BloggyWeb, :controller
 
-  def index(conn, _params) do
-    IO.puts("Ana hna hna yabn el 7lal")
-    render(conn, "index.html")
+  def home(conn, _params) do
+    render(conn, :home, layout: false)
   end
 end

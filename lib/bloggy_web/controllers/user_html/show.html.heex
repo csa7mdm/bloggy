@@ -1,0 +1,17 @@
+<.header>
+  User {@user.id}
+  <:subtitle>User details</:subtitle>
+  <:actions>
+    <.link href={~p"/users/#{@user}/edit"}>
+      <.button>Edit user</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Email">{@user.email}</:item>
+  <:item title="Company ID">{@user.company_id}</:item>
+  <:item title="Role">{@user.role}</:item>
+</.list>
+
+<.back navigate={~p"/users"}>Back to users</.back>

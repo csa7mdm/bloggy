@@ -9,84 +9,45 @@ defmodule BloggyWeb.UserController do
   def index(conn, _params) do
     users = Accounts.list_users()
     companies = Schema.list_companies()
-    render(conn, "index.html", users: users, companies: companies)
+    render(conn, :index, users: users, companies: companies)
   end
 
   def new(conn, _params) do
     changeset = Accounts.change_user(%User{})
-    render(conn, "new.html", changeset: changeset)
+    render(conn, :new, changeset: changeset)
   end
 
-  # def signin(conn, %{"email" => email, "password" => password}) do
-  #   with {:ok, user, token} <- Guardian.authenticate(email, password) do
-  #     conn
-  #     |> put_status(:created)
-  #     |> redirect(to: Routes.post_path(conn, :index, %{user: user}))
-  #   end
-  # end
-
-  # def create(conn, %{"user" => user_params}) do
-  #   with {:ok, %User{} = user} <- Accounts.create_user(user_params),
-  #        {:ok, token, _claims} <- Guardian.encode_and_sign(user) do
-  #     conn
-  #     |> put_flash(:info, "User created successfully.")
-  #     |> redirect(to: Routes.user_path(conn, :show, user, token))
-  #   else
-  #     {:error, %Ecto.Changeset{} = changeset} ->
-  #       render(conn, "new.html", changeset: changeset)
-  #   end
-  # end
-
   def create(conn, %{"user" => user_params}) do
-    with {:ok, %User{} = user} <- Accounts.create_user(user_params) do
-      IO.inspect(user)
+    case Accounts.create_user(user_params) do
+      {:ok, user} ->
+        case Guardian.encode_and_sign(user) do
+          {:ok, token, _claims} ->
+            Accounts.update_user(user, %{token: token})
 
-      case Guardian.encode_and_sign(user) do
-        {:ok, token, _claims} ->
-          IO.puts("Here >> 1")
-          IO.inspect(token)
-          Accounts.update_user(user, %{token: token})
+            conn
+            |> put_flash(:info, "User created successfully.")
+            |> redirect(to: ~p"/users/#{user}")
 
-          conn
-          |> put_flash(:info, "User created successfully.")
-          |> redirect(to: Routes.user_path(conn, :show, user))
+          {:error, _reason} ->
+            conn
+            |> put_flash(:info, "User created successfully.")
+            |> redirect(to: ~p"/users/#{user}")
+        end
 
-        {:error, :secret_not_found} ->
-          IO.puts("Here >> 3")
-
-          conn
-          |> put_flash(:info, "User created successfully.")
-          |> redirect(to: Routes.user_path(conn, :show, user))
-      end
-    else
       {:error, %Ecto.Changeset{} = changeset} ->
-        IO.puts("Here >> 2")
-        IO.inspect(changeset)
-        render(conn, "new.html", changeset: changeset)
+        render(conn, :new, changeset: changeset)
     end
   end
 
-  # def create(conn, %{"user" => user_params}) do
-  #   case Accounts.create_user(user_params) do
-  #     {:ok, user} ->
-  #       conn
-  #       |> put_flash(:info, "User created successfully.")
-  #       |> redirect(to: Routes.user_path(conn, :show, user))
-
-  #     {:error, %Ecto.Changeset{} = changeset} ->
-  #       render(conn, "new.html", changeset: changeset)
-  #   end
-  # end
-
   def show(conn, %{"id" => id}) do
     user = Accounts.get_user!(id)
-    render(conn, "show.html", user: user)
+    render(conn, :show, user: user)
   end
 
   def edit(conn, %{"id" => id}) do
     user = Accounts.get_user!(id)
     changeset = Accounts.change_user(user)
-    render(conn, "edit.html", user: user, changeset: changeset)
+    render(conn, :edit, user: user, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "user" => user_params}) do
@@ -96,10 +57,10 @@ defmodule BloggyWeb.UserController do
       {:ok, user} ->
         conn
         |> put_flash(:info, "User updated successfully.")
-        |> redirect(to: Routes.user_path(conn, :show, user))
+        |> redirect(to: ~p"/users/#{user}")
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", user: user, changeset: changeset)
+        render(conn, :edit, user: user, changeset: changeset)
     end
   end
 
@@ -109,6 +70,6 @@ defmodule BloggyWeb.UserController do
 
     conn
     |> put_flash(:info, "User deleted successfully.")
-    |> redirect(to: Routes.user_path(conn, :index))
+    |> redirect(to: ~p"/users")
   end
 end
