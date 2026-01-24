@@ -94,6 +94,19 @@ defmodule Bloggy.SchemaTest do
       assert post.title == "some title"
     end
 
+    test "create_post/1 with embedding vector" do
+      user = user_fixture()
+      embedding = Pgvector.new([0.1, 0.2, 0.3])
+      valid_attrs = Map.merge(@valid_attrs, %{
+        created_by: user.id,
+        company_id: user.company_id,
+        embedding: embedding
+      })
+
+      assert {:ok, %Post{} = post} = Schema.create_post(valid_attrs)
+      assert post.embedding == embedding
+    end
+
     test "create_post/1 with invalid data returns error changeset" do
       assert {:error, %Ecto.Changeset{}} = Schema.create_post(@invalid_attrs)
     end

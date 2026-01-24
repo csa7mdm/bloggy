@@ -8,6 +8,13 @@ defmodule Bloggy.MixProject do
       elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
+      name: "Bloggy",
+      source_url: "https://github.com/csa7mdm/bloggy",
+      homepage_url: "http://localhost:4000",
+      docs: [
+        main: "readme", # The main page in the docs
+        extras: ["README.md", "ARCHITECTURE.md", "ROADMAP.md"]
+      ],
       aliases: aliases(),
       deps: deps()
     ]
@@ -59,7 +66,9 @@ defmodule Bloggy.MixProject do
       {:dns_cluster, "~> 0.1.1"},
       {:bandit, "~> 1.6"},
       {:guardian, "~> 2.4"},
-      {:bcrypt_elixir, "~> 3.3"}
+      {:bcrypt_elixir, "~> 3.3"},
+      {:ex_doc, "~> 0.31", only: :dev, runtime: false},
+      {:pgvector, ">= 0.0.0"}
     ]
   end
 

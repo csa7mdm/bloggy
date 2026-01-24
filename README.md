@@ -59,6 +59,7 @@ graph TD
 *   **🔐 Built-in Auth**: Role-based access control (RBAC) securely implemented with Guardian.
 *   **🎨 Tailwind CSS**: A utility-first styling engine that scales.
 *   **📝 Markdown Core**: Content is stored as pure Markdown, future-proofing your data against platform lock-in.
+*   **🐳 Docker Ready**: Production-optimized `Dockerfile` included for instant deployment.
 
 ## 🛠 Getting Started
 
@@ -99,8 +100,8 @@ We are currently in **Horizon 4 (Professionalization)**.
 | **Horizon 1** | **Foundation** – Core CRUD, Database, Authentication. | ✅ Complete |
 | **Horizon 2** | **Design** – Tailwind implementation, Responsive UI. | ✅ Complete |
 | **Horizon 3** | **AI Integration** – `llms.txt`, Context API, RAG Hooks. | ✅ Complete |
-| **Horizon 4** | **Scale & Ops** – CI/CD, Testing, Plugin Architecture. | 🔄 **In Progress** |
-| **Horizon 5** | **The Future** – Vector Search, Auto-Summarization. | 🔜 Planned |
+| **Horizon 4** | **Scale & Ops** – CI/CD, Documentation, Containerization. | ✅ Complete |
+| **Horizon 5** | **The Future** – Vector Search, Auto-Summarization. | 🔄 **In Progress** |
 
 *See full details in [ROADMAP.md](ROADMAP.md).*
 

@@ -10,6 +10,7 @@ defmodule Bloggy.Schema.Post do
     field :publish_date, :utc_datetime
     field :tag, :string
     field :title, :string
+    field :embedding, Pgvector.Ecto.Vector
 
     timestamps()
   end
@@ -17,7 +18,7 @@ defmodule Bloggy.Schema.Post do
   @doc false
   def changeset(post, attrs) do
     post
-    |> cast(attrs, [:title, :body, :created_by, :company_id, :approved, :tag, :publish_date])
+    |> cast(attrs, [:title, :body, :created_by, :company_id, :approved, :tag, :publish_date, :embedding])
     |> validate_required([
       :title,
       :body,

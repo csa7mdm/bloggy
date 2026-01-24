@@ -34,7 +34,7 @@ graph TD
         end
     end
     
-    Repo -->|TCP 5432| DB[(PostgreSQL)]
+    Repo -->|TCP 5432| DB[(PostgreSQL + pgvector)]
 ```
 
 ## Core Contexts
