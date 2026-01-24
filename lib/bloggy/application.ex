@@ -14,6 +14,8 @@ defmodule Bloggy.Application do
       {Phoenix.PubSub, name: Bloggy.PubSub},
       # Start the Finch HTTP client for sending emails
       {Finch, name: Bloggy.Finch},
+      # Start the Plugin Manager
+      Bloggy.PluginManager,
       # Start a worker by calling: Bloggy.Worker.start_link(arg)
       # {Bloggy.Worker, arg},
       # Start to serve requests, typically the last entry
