@@ -13,6 +13,6 @@ defmodule Bloggy.Schema.Company do
   def changeset(company, attrs) do
     company
     |> cast(attrs, [:name, :parent_id])
-    |> validate_required([:name, :parent_id])
+    |> validate_required([:name])
   end
 end

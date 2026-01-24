@@ -8,6 +8,5 @@ defmodule Bloggy.Repo.Migrations.CreateCompanies do
 
       timestamps()
     end
-
   end
 end

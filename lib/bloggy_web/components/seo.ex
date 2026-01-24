@@ -10,7 +10,7 @@ defmodule BloggyWeb.SEO do
     ~H"""
     <title>{page_title(@title)}</title>
     <meta name="description" content={@description || "Bloggy: The home of AI-native publishing."} />
-    
+
     <!-- Open Graph -->
     <meta property="og:title" content={page_title(@title)} />
     <meta property="og:description" content={@description || "Bloggy: The home of AI-native publishing."} />
@@ -20,7 +20,7 @@ defmodule BloggyWeb.SEO do
     <% end %>
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Bloggy" />
-    
+
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={page_title(@title)} />

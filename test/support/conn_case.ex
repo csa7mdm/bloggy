@@ -19,10 +19,12 @@ defmodule BloggyWeb.ConnCase do
     quote do
       # Import conveniences for testing with connections
       use Phoenix.ConnTest
-      alias BloggyWeb.Router.Helpers, as: Routes
 
       # The default endpoint for testing
       @endpoint BloggyWeb.Endpoint
+
+      alias BloggyWeb.Router.Helpers, as: Routes
+      unquote(BloggyWeb.verified_routes())
     end
   end
 

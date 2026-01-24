@@ -63,8 +63,7 @@ if config_env() == :prod do
       You can generate one by calling: mix guardian.gen.secret
       """
 
-  config :bloggy, BloggyWeb.Auth.Guardian,
-    secret_key: guardian_secret
+  config :bloggy, BloggyWeb.Auth.Guardian, secret_key: guardian_secret
 
   # ## SSL Support
   #

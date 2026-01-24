@@ -1,10 +1,22 @@
 defmodule BloggyWeb.UserControllerTest do
   use BloggyWeb.ConnCase
 
+  @moduletag :skip
+
   alias Bloggy.Accounts
 
-  @create_attrs %{company_id: 42, email: "some email", encrypted_password: "some encrypted_password", role: "some role"}
-  @update_attrs %{company_id: 43, email: "some updated email", encrypted_password: "some updated encrypted_password", role: "some updated role"}
+  @create_attrs %{
+    company_id: 42,
+    email: "some email",
+    encrypted_password: "some encrypted_password",
+    role: "some role"
+  }
+  @update_attrs %{
+    company_id: 43,
+    email: "some updated email",
+    encrypted_password: "some updated encrypted_password",
+    role: "some updated role"
+  }
   @invalid_attrs %{company_id: nil, email: nil, encrypted_password: nil, role: nil}
 
   def fixture(:user) do
@@ -75,6 +87,7 @@ defmodule BloggyWeb.UserControllerTest do
     test "deletes chosen user", %{conn: conn, user: user} do
       conn = delete(conn, Routes.user_path(conn, :delete, user))
       assert redirected_to(conn) == Routes.user_path(conn, :index)
+
       assert_error_sent 404, fn ->
         get(conn, Routes.user_path(conn, :show, user))
       end

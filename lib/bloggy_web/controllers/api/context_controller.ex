@@ -4,7 +4,7 @@ defmodule BloggyWeb.API.ContextController do
 
   def show(conn, %{"id" => id}) do
     post = Schema.get_post!(id)
-    
+
     # Calculate basic tokens (approximate)
     word_count = post.body |> String.split() |> length()
     token_est = round(word_count * 1.3)

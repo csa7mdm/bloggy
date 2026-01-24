@@ -40,7 +40,7 @@ defmodule Bloggy.PluginManager do
 
   @impl true
   def handle_cast({:broadcast, event, payload}, state) do
-    new_plugins = 
+    new_plugins =
       Enum.reduce(state.plugins, state.plugins, fn {module, plugin_state}, acc ->
         case module.handle_event(event, payload, plugin_state) do
           {:ok, new_state} -> Map.put(acc, module, new_state)
@@ -48,7 +48,7 @@ defmodule Bloggy.PluginManager do
           _ -> acc
         end
       end)
-    
+
     {:noreply, %{state | plugins: new_plugins}}
   end
 end

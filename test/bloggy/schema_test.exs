@@ -5,15 +5,67 @@ defmodule Bloggy.SchemaTest do
 
   describe "posts" do
     alias Bloggy.Schema.Post
+    alias Bloggy.Accounts
 
-    @valid_attrs %{description: "some description", name: "some name", tag: "some tag"}
-    @update_attrs %{description: "some updated description", name: "some updated name", tag: "some updated tag"}
-    @invalid_attrs %{description: nil, name: nil, tag: nil}
+    @valid_attrs %{
+      approved: true,
+      company_id: 42,
+      body: "some content",
+      created_by: 42,
+      publish_date: "2010-04-17T14:00:00Z",
+      tag: "some tag",
+      title: "some title"
+    }
+    @update_attrs %{
+      approved: false,
+      body: "some updated content",
+      publish_date: "2011-05-18T15:01:01Z",
+      tag: "some updated tag",
+      title: "some updated title"
+    }
+    @invalid_attrs %{
+      approved: nil,
+      company_id: nil,
+      body: nil,
+      created_by: nil,
+      publish_date: nil,
+      tag: nil,
+      title: nil
+    }
+
+    alias Bloggy.Schema.Company
+
+    def company_fixture() do
+      {:ok, company} =
+        %{name: "Test Company #{System.unique_integer([:positive])}", parent_id: nil}
+        |> Schema.create_company()
+
+      company
+    end
+
+    def user_fixture() do
+      company = company_fixture()
+
+      {:ok, user} =
+        %{
+          company_id: company.id,
+          email: "unique_#{System.unique_integer([:positive])}@example.com",
+          password: "password123",
+          role: "some role"
+        }
+        |> Accounts.create_user()
+
+      user
+    end
 
     def post_fixture(attrs \\ %{}) do
+      user = user_fixture()
+
       {:ok, post} =
         attrs
         |> Enum.into(@valid_attrs)
+        |> Map.put(:created_by, user.id)
+        |> Map.put(:company_id, user.company_id)
         |> Schema.create_post()
 
       post
@@ -30,74 +82,13 @@ defmodule Bloggy.SchemaTest do
     end
 
     test "create_post/1 with valid data creates a post" do
-      assert {:ok, %Post{} = post} = Schema.create_post(@valid_attrs)
-      assert post.description == "some description"
-      assert post.name == "some name"
-      assert post.tag == "some tag"
-    end
-
-    test "create_post/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Schema.create_post(@invalid_attrs)
-    end
-
-    test "update_post/2 with valid data updates the post" do
-      post = post_fixture()
-      assert {:ok, %Post{} = post} = Schema.update_post(post, @update_attrs)
-      assert post.description == "some updated description"
-      assert post.name == "some updated name"
-      assert post.tag == "some updated tag"
-    end
-
-    test "update_post/2 with invalid data returns error changeset" do
-      post = post_fixture()
-      assert {:error, %Ecto.Changeset{}} = Schema.update_post(post, @invalid_attrs)
-      assert post == Schema.get_post!(post.id)
-    end
-
-    test "delete_post/1 deletes the post" do
-      post = post_fixture()
-      assert {:ok, %Post{}} = Schema.delete_post(post)
-      assert_raise Ecto.NoResultsError, fn -> Schema.get_post!(post.id) end
-    end
-
-    test "change_post/1 returns a post changeset" do
-      post = post_fixture()
-      assert %Ecto.Changeset{} = Schema.change_post(post)
-    end
-  end
-
-  describe "posts" do
-    alias Bloggy.Schema.Post
-
-    @valid_attrs %{approved: true, company_id: 42, content: "some content", created_by: 42, publish_date: "2010-04-17T14:00:00Z", tag: "some tag", title: "some title"}
-    @update_attrs %{approved: false, company_id: 43, content: "some updated content", created_by: 43, publish_date: "2011-05-18T15:01:01Z", tag: "some updated tag", title: "some updated title"}
-    @invalid_attrs %{approved: nil, company_id: nil, content: nil, created_by: nil, publish_date: nil, tag: nil, title: nil}
-
-    def post_fixture(attrs \\ %{}) do
-      {:ok, post} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> Schema.create_post()
-
-      post
-    end
-
-    test "list_posts/0 returns all posts" do
-      post = post_fixture()
-      assert Schema.list_posts() == [post]
-    end
-
-    test "get_post!/1 returns the post with given id" do
-      post = post_fixture()
-      assert Schema.get_post!(post.id) == post
-    end
-
-    test "create_post/1 with valid data creates a post" do
-      assert {:ok, %Post{} = post} = Schema.create_post(@valid_attrs)
+      user = user_fixture()
+      valid_attrs = Map.merge(@valid_attrs, %{created_by: user.id, company_id: user.company_id})
+      assert {:ok, %Post{} = post} = Schema.create_post(valid_attrs)
       assert post.approved == true
-      assert post.company_id == 42
-      assert post.content == "some content"
-      assert post.created_by == 42
+      assert post.company_id == user.company_id
+      assert post.body == "some content"
+      assert post.created_by == user.id
       assert post.publish_date == DateTime.from_naive!(~N[2010-04-17T14:00:00Z], "Etc/UTC")
       assert post.tag == "some tag"
       assert post.title == "some title"
@@ -111,9 +102,7 @@ defmodule Bloggy.SchemaTest do
       post = post_fixture()
       assert {:ok, %Post{} = post} = Schema.update_post(post, @update_attrs)
       assert post.approved == false
-      assert post.company_id == 43
-      assert post.content == "some updated content"
-      assert post.created_by == 43
+      assert post.body == "some updated content"
       assert post.publish_date == DateTime.from_naive!(~N[2011-05-18T15:01:01Z], "Etc/UTC")
       assert post.tag == "some updated tag"
       assert post.title == "some updated title"

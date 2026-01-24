@@ -6,7 +6,8 @@ defmodule Bloggy.Plugin do
 
   @callback name() :: String.t()
   @callback init(config :: keyword()) :: {:ok, map()} | {:error, any()}
-  @callback handle_event(event :: atom(), payload :: map(), state :: map()) :: {:ok, map()} | {:noreply, map()}
+  @callback handle_event(event :: atom(), payload :: map(), state :: map()) ::
+              {:ok, map()} | {:noreply, map()}
 
   defmacro __using__(_opts) do
     quote do
@@ -14,7 +15,7 @@ defmodule Bloggy.Plugin do
 
       def init(_config), do: {:ok, %{}}
       def handle_event(_event, _payload, state), do: {:noreply, state}
-      
+
       defoverridable init: 1, handle_event: 3
     end
   end
