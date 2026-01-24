@@ -9,7 +9,7 @@
 
   <.input field={f[:title]} type="text" label="Title" />
   
-  <div class="mt-2" phx-update="ignore">
+  <div id="editor-wrapper" class="mt-2" phx-update="ignore">
     <.label for="post_body">Body</.label>
     <textarea id="post_body" name="post[body]" phx-hook="Editor" class="hidden">
       <%= Ecto.Changeset.get_field(@changeset, :body) %>

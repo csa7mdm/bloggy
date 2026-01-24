@@ -40,10 +40,20 @@ defmodule BloggyWeb.Router do
     get "/posts", PostController, :index
     get "/posts/:id", PostController, :show
     get "/users/new", UserController, :new
+    
+    # AI Consumption Routes
+    get "/llms.txt", LLMController, :index
+    
     post "/users", UserController, :create
     get "/sessions/new", SessionController, :new
     post "/sessions", SessionController, :create
     delete "/sessions/:id", SessionController, :delete
+  end
+
+  scope "/api/v1", BloggyWeb do
+    pipe_through :api
+    
+    get "/posts/:id/context", API.ContextController, :show
   end
 
   # Protected routes - authentication required

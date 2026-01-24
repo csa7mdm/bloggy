@@ -5,7 +5,7 @@ defmodule Bloggy.Schema.Post do
   schema "posts" do
     field :approved, :boolean, default: false
     field :company_id, :integer
-    field :content, :string
+    field :body, :string
     field :created_by, :integer
     field :publish_date, :utc_datetime
     field :tag, :string
