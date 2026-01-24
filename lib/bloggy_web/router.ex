@@ -8,6 +8,11 @@ defmodule BloggyWeb.Router do
     plug :put_root_layout, html: {BloggyWeb.Layouts, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug :assign_current_path
+  end
+
+  defp assign_current_path(conn, _opts) do
+    assign(conn, :current_path, conn.request_path)
   end
 
   pipeline :api do

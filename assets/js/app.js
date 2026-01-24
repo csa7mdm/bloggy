@@ -7,9 +7,11 @@ import { LiveSocket } from "phoenix_live_view"
 import topbar from "../vendor/topbar"
 
 import Editor from "./hooks/editor"
+import ThemeToggle from "./hooks/theme_toggle"
 
 let Hooks = {
-    Editor: Editor
+    Editor: Editor,
+    ThemeToggle: ThemeToggle
 }
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
