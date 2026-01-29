@@ -1,5 +1,9 @@
 {
   "dependencies": {
     "easymde": "^2.20.0"
+  },
+  "overrides": {
+    "node-tar": ">=6.2.1",
+    "tar": ">=6.2.1"
   }
 }
